@@ -1,5 +1,4 @@
 <?php 
-
      
     function form_mail($sPara, $sAsunto, $sTexto, $sDe) 
     { 
@@ -38,24 +37,40 @@
                  
                 $sCuerpo = $sCabeceraTexto.$sCuerpo; 
                  
-            } 
-             
-            // Se añade el fichero 
-            if ($vAdjunto["size"] > 0) 
-            { 
-                $sAdjuntos .= "\n\n--".$sSeparador."\n"; 
-                $sAdjuntos .= "Content-type: ".$vAdjunto["type"].";name=\"".$vAdjunto["name"]."\"\n"; 
-                $sAdjuntos .= "Content-Transfer-Encoding: BASE64\n"; 
-                $sAdjuntos .= "Content-disposition: attachment;filename=\"".$vAdjunto["name"]."\"\n\n";                  
-                 
-                $oFichero = fopen($vAdjunto["tmp_name"], 'rb'); 
-                $sContenido = fread($oFichero, filesize($vAdjunto["tmp_name"])); 
-                $sAdjuntos .= chunk_split(base64_encode($sContenido)); 
-                fclose($oFichero); 
-            } 
+            }
+            
+            // Compruebo que el archivo seleccionado es del formato PDF o DOC
+            if (!($_FILES[$vAdjunto][type] =="application/pdf" OR               
+              $_FILES[$vAdjunto][type] =="application/msword"))
+                {
+                    echo "No es un archivo válido. Recuerde debe de ser PDF o DOC"; //Me devuelve el valor en bytes
+                    $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
+                    echo "<br><br><a href='$url'>Volver</a><br><br>";
+                    exit(); 
+                }
+            
+            if (! ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) ) 
+            {
+              echo "Es muy grande el archivo. El tamaño es :" .filesize($vAdjunto["tmp_name"]); //Me devuelve el valor en bytes
+              $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
+              echo "<br><br><a href='$url'>Volver</a><br><br>";
+              exit();
+                
+            }else if ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) // Se añade el fichero 
+                    { 
+                        $sAdjuntos .= "\n\n--".$sSeparador."\n"; 
+                        $sAdjuntos .= "Content-type: ".$vAdjunto["type"].";name=\"".$vAdjunto["name"]."\"\n"; 
+                        $sAdjuntos .= "Content-Transfer-Encoding: BASE64\n"; 
+                        $sAdjuntos .= "Content-disposition: attachment;filename=\"".$vAdjunto["name"]."\"\n\n";                  
+
+                        $oFichero = fopen($vAdjunto["tmp_name"], 'rb'); 
+                        $sContenido = fread($oFichero, filesize($vAdjunto["tmp_name"])); 
+                        $sAdjuntos .= chunk_split(base64_encode($sContenido)); 
+                        fclose($oFichero); 
+                    }
              
         } 
-         
+        
         // Si hay ficheros se añaden al cuerpo 
         if ($bHayFicheros) 
             $sCuerpo .= $sAdjuntos."\n\n--".$sSeparador."--\n"; 
@@ -67,12 +82,14 @@
         return(mail($sPara, $sAsunto, $sCuerpo, $sCabeceras)); 
     } 
          
-        //Ejemplo de como usar: 
-        if (form_mail("mi@correo.com", 
-                                    "Usuario desde la web.", 
-                                    "Los datos introducidos en el formulario son:\n", 
-                                    $_POST["E-mail"])) 
-        echo "Su formulario ha sido enviado con exito"; 
-         
+    //Usar llamando a la función form_mail: 
+    if (form_mail("receptordelcorreo@gmail.com", 
+                "Solicitud de empleo desde la web.", 
+                "Los datos introducidos en el formulario son:\n", 
+                $_POST["E-mail"])) 
+    echo "Su formulario ha sido enviado con exito. Gracias por su interés."; 
+        
+    $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
+    echo "<br><br><a href='$url'>Volver</a><br><br>";
 
 ?>
