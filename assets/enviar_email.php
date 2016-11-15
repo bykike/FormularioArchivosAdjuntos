@@ -1,4 +1,5 @@
-<?php 
+<?php
+
      
     function form_mail($sPara, $sAsunto, $sTexto, $sDe) 
     { 
@@ -14,11 +15,14 @@
         // Recogemos los campos del formulario 
         foreach ($_POST as $sNombre => $sValor) 
             $sCuerpo = $sCuerpo."\n".$sNombre." = ".$sValor; 
-             
+        
+        
         // Recorremos los Ficheros 
         foreach ($_FILES as $vAdjunto) 
         { 
-             
+
+            
+            
             if ($bHayFicheros == 0) 
             { 
                  
@@ -39,21 +43,34 @@
                  
             }
             
+            
+            // Filtramos que sea el archivo que se solicita.
+            if ($vAdjunto[type] =="application/pdf") // $_FILES[$vAdjunto][type] =="application/msword"))
+                { echo "es pdf";
+                 exit();
+                }else if ($vAdjunto[type] =="application/msword")
+                        {
+                            echo "es doc";
+                            exit();
+                            }else {echo "No es nada";
+                                  exit();}
+                        
+            
             // Compruebo que el archivo seleccionado es del formato PDF o DOC
-            if (!($_FILES[$vAdjunto][type] =="application/pdf" OR               
-              $_FILES[$vAdjunto][type] =="application/msword"))
+            /* if (! $vAdjunto[type] =="application/pdf") // $_FILES[$vAdjunto][type] =="application/msword"))
                 {
-                    echo "No es un archivo válido. Recuerde debe de ser PDF o DOC"; //Me devuelve el valor en bytes
+                    echo "No es un archivo válido. Recuerde debe de ser PDF o DOC "; //Me devuelve el valor en bytes
                     $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
                     echo "<br><br><a href='$url'>Volver</a><br><br>";
                     exit(); 
-                }
+                }*/
+
             
-            if (! ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) ) 
+            if (! ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) )  //No más de 2MB
             {
-              echo "Es muy grande el archivo. El tamaño es :" .filesize($vAdjunto["tmp_name"]); //Me devuelve el valor en bytes
+              echo "<br><br><p align='center'>Es muy grande el archivo. El tamaño es :" .filesize($vAdjunto["tmp_name"]."</p>"); //Me devuelve el valor en bytes
               $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
-              echo "<br><br><a href='$url'>Volver</a><br><br>";
+              echo "<br><br><a align='center' href='$url'>Volver</a><br><br>";
               exit();
                 
             }else if ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) // Se añade el fichero 
@@ -89,7 +106,13 @@
                 $_POST["E-mail"])) 
     echo "Su formulario ha sido enviado con exito. Gracias por su interés."; 
         
-    $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
-    echo "<br><br><a href='$url'>Volver</a><br><br>";
+    /* $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
+    echo "<br><br><a href='$url'>Volver</a><br><br>";*/
 
 ?>
+        <div>
+            <!-- Volver apantalla inicial -->
+            <br><br>
+            <input type="button" value="Volver" onclick="location.href='../index.html'">
+            <br><br>
+        </div>
