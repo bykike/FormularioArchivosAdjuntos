@@ -1,6 +1,5 @@
 <?php
 
-     
     function form_mail($sPara, $sAsunto, $sTexto, $sDe) 
     { 
      
@@ -43,35 +42,33 @@
                  
             }
             
+            // Hemos filtrado la extensión desde html
             
-            // Filtramos que sea el archivo que se solicita.
-            if ($vAdjunto[type] =="application/pdf") // $_FILES[$vAdjunto][type] =="application/msword"))
-                { echo "es pdf";
-                 exit();
-                }else if ($vAdjunto[type] =="application/msword")
-                        {
-                            echo "es doc";
-                            exit();
-                            }else {echo "No es nada";
-                                  exit();}
-                        
-            
-            // Compruebo que el archivo seleccionado es del formato PDF o DOC
-            /* if (! $vAdjunto[type] =="application/pdf") // $_FILES[$vAdjunto][type] =="application/msword"))
+            /*
+            if (!($vAdjunto[type] =="application/pdf" OR $vAdjunto[type] =="application/msword")) 
                 {
-                    echo "No es un archivo válido. Recuerde debe de ser PDF o DOC "; //Me devuelve el valor en bytes
+                    echo "<br><br><p align='center'>Debe de seleccionar un archivo correcto :".$vAdjunto[type]."</p>"; //Me devuelve el valor en bytes
                     $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
-                    echo "<br><br><a href='$url'>Volver</a><br><br>";
-                    exit(); 
-                }*/
-
+                    echo "<br><br><a align='center' href='$url'>Volver</a><br><br>";
+                    exit();
+                }
+            */
             
-            if (! ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) )  //No más de 2MB
+            
+            
+            
+            if (($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) > 2000000) )  //No más de 2MB
             {
-              echo "<br><br><p align='center'>Es muy grande el archivo. El tamaño es :" .filesize($vAdjunto["tmp_name"]."</p>"); //Me devuelve el valor en bytes
-              $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
-              echo "<br><br><a align='center' href='$url'>Volver</a><br><br>";
-              exit();
+                echo "<br><br><p align='center'>El archivo que quiere mandar tiene más de 2MB. Vuelva a intentarlo por favor.".filesize($vAdjunto["size"]."</p><br><br>"); //Me devuelve el valor en bytes
+                ?>
+                    <div align="center">
+                        <!-- Volver apantalla inicial -->
+                        <br><br>
+                        <input type="button" value="Volver al formulario" onclick="location.href='../index.html'">
+                        <br><br>
+                    </div>
+                <?
+                exit();
                 
             }else if ($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) < 2000000) // Se añade el fichero 
                     { 
@@ -100,19 +97,17 @@
     } 
          
     //Usar llamando a la función form_mail: 
-    if (form_mail("receptordelcorreo@gmail.com", 
+    if (form_mail("mail@dominio.es", 
                 "Solicitud de empleo desde la web.", 
                 "Los datos introducidos en el formulario son:\n", 
-                $_POST["E-mail"])) 
-    echo "Su formulario ha sido enviado con exito. Gracias por su interés."; 
+                "mail@dominio.es")) 
+        echo "<br><br><p align='center'>Su formulario ha sido enviado con éxito. Gracias por su interés.</p>";
         
-    /* $url = htmlspecialchars($_SERVER['HTTP_REFERER']);
-    echo "<br><br><a href='$url'>Volver</a><br><br>";*/
 
 ?>
-        <div>
+        <div align="center">
             <!-- Volver apantalla inicial -->
             <br><br>
-            <input type="button" value="Volver" onclick="location.href='../index.html'">
+            <input type="button" value="Volver al formulario" onclick="location.href='../index.html'">
             <br><br>
         </div>

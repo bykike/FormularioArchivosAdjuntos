@@ -7,15 +7,19 @@
     </head> 
     <body > 
      <div id="contenedor">
+        <div style="background-color:#ffffff;">
         <form name='formulario' class="contact_form" id='formulario' method='post' action='assets/enviar_email.php' enctype="multipart/form-data"> 
         <div> 
-           <img src="assets/logo.png">
-           <br><br>
+           <img style="height: 100%;" src="assets/bannerformu.jpg">
+           <br>
         </div>
         <ul>
-            <li> 
-               <h2>ENVÍANOS TU CURRÍCULUM</h2>    
+            <li>  
+               <h2>TRABAJA CON NOSOTROS</h2>
+               <p>Envíanos tu C.V. y nos pondremos en contacto contigo cuando tu perfil se ajuste a nuestras necesidades laborales.</p>
             </li>
+        
+            
             <li>
                 <label for="name">Nombre:</label>
                 <input type='text' name='Nombre' id='Nombre' placeholder="Nombre" required>
@@ -28,7 +32,7 @@
             </li>
             <li>
             <label for="telefono">Teléfono:</label>
-            <input type='text' name='Telefono' id='Telefono' placeholder="Teléfono">
+            <input type='text' name='Telefono' id='Telefono' placeholder="Teléfono" required>
             <span class="form_hint">Formato correcto: "555-555-555 (9 digitos)"</span>
             </li>
             <li>
@@ -43,14 +47,33 @@
                      
                 </li>
             <li>
-                <label for="adjuntar archivo">Adjuntar archivo (formato PDF/Doc):</label> 
-                <input style="width:300px" type='file' name='archivo1' id='archivo1' placeholder="carga tu curriculum" required>
+                <label for="adjuntar archivo" style="font-size:13px">Formato pdf / doc (2Mb):</label> 
+                <input style="width:400px" type='file' name='archivo1' id='archivo1' placeholder="carga tu curriculum" accept=".pdf,.doc,.docx" required>
             </li> 
-            <li align='center'> 
-                <button class="submit" type='submit' value='Enviar formulario'>Enviar Mensaje</button>
+            <li align="center"> 
+                <button class="submit" type='submit' id='submit' value='Enviar formulario'>Enviar Mensaje</button>
+                <p><input style="width:20px;" type="checkbox" name="aceptar" id="aceptar" size=10px>He leído y acepto las <a color="#c53752" href="PoliticaPrivacidad.html" target="_blank"> Condiciones Generales</a>&nbsp;</p>
             </li>
-            </ul> 
+            
+            </ul>
+            </div>
         </form>
       </div>
+        
+            <!-- Javascript para uso de leer las condiciones -->
+            <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                $("#submit").on("click", function() {
+                var condiciones = $("#aceptar").is(":checked");
+                if (!condiciones) {
+                    alert("Debe aceptar las condiciones");
+                    event.preventDefault();
+                        }
+                    });
+                });
+            </script>
+    
+
     </body> 
 </html>

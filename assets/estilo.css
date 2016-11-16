@@ -1,6 +1,6 @@
 /* Centramos el formulario */
 #contenedor {
-  height: 750px;
+  height: 800px;
   /*IMPORTANTE*/
   display: flex;
   justify-content: center;
@@ -38,7 +38,7 @@ body {
 
 .contact_form li {
     padding: 12px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #babfb9;
     position: relative;
 }
 
@@ -71,14 +71,14 @@ body {
 .contact_form input {
     font-size: 14px;
     height: 30px;
-    width: 220px;
+    width: 300px;
     padding: 5px 8px;
 }
 
 .contact_form textarea {
     font-size: 14px;
     padding: 8px;
-    width: 300px;
+    width: 400px;
 }
 
 .contact_form button {
@@ -86,6 +86,7 @@ body {
 }
 
 /* form estilos de elementos visuales */
+
 .contact_form input, .contact_form textarea {
     border: 1px solid #aaa;
     box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
