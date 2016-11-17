@@ -19,9 +19,7 @@
         // Recorremos los Ficheros 
         foreach ($_FILES as $vAdjunto) 
         { 
-
-            
-            
+         
             if ($bHayFicheros == 0) 
             { 
                  
@@ -42,7 +40,7 @@
                  
             }
             
-            // Hemos filtrado la extensión desde html
+            // Lo hemos filtrado la extensión desde html
             
             /*
             if (!($vAdjunto[type] =="application/pdf" OR $vAdjunto[type] =="application/msword")) 
