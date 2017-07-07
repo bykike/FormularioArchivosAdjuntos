@@ -42,7 +42,6 @@
             
             // Lo hemos filtrado la extensión desde html
             
-            /*
             if (!($vAdjunto[type] =="application/pdf" OR $vAdjunto[type] =="application/msword")) 
                 {
                     echo "<br><br><p align='center'>Debe de seleccionar un archivo correcto :".$vAdjunto[type]."</p>"; //Me devuelve el valor en bytes
@@ -50,10 +49,8 @@
                     echo "<br><br><a align='center' href='$url'>Volver</a><br><br>";
                     exit();
                 }
-            */
-            
-            
-            
+
+          
             
             if (($vAdjunto["size"] > 0 and filesize($vAdjunto["tmp_name"]) > 2000000) )  //No más de 2MB
             {
